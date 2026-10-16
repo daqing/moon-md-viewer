@@ -48,9 +48,17 @@ cat notes.md | moon run cmd/main
 | `--theme <dark\|light\|none>` | `dark` | 配色方案；`none` 完全不输出颜色。 |
 | `--width <columns>` | `$COLUMNS`，否则 80 | 折行宽度。 |
 | `--color <auto\|always\|never>` | `auto` | `auto` 仅在 stdout 是支持颜色的终端时着色。 |
+| `--pager <auto\|always\|never>` | `auto` | `auto` 在 stdout 是终端时通过 `$PAGER` 分页。 |
 
 其余参数都是输入文件；`-` 或不传文件则读取标准输入。当 stdout 不是终端、`TERM`
 为 `dumb`，或设置了 `NO_COLOR` 时，颜色会被关闭。
+
+### 分页
+
+输出到终端时，会通过 `$PAGER` 分页；未设置 `$PAGER` 时使用 `less`。`$LESS` 默认为
+`FRX`——与 git 相同的设置——因此颜色能正确传给分页器，退出后内容仍留在屏幕上，而
+内容不足一屏时 `less` 会自动退出。`--pager never` 直接打印，`--pager always` 即使
+stdout 是管道也分页；分页器启动失败时则回退为直接打印。
 
 ## 作为库使用
 
@@ -80,6 +88,6 @@ let text = @moon-md-viewer.render(markdown, theme=@moon-md-viewer.Dark, width=80
 ## 开发
 
 ```bash
-moon test          # 32 个行为测试与单元测试
+moon test          # 34 个行为测试与单元测试
 moon info && moon fmt
 ```

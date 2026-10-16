@@ -10,6 +10,7 @@ const MIN_WIDTH : Int32 = 4
 struct Options {
   theme : @lib.Theme
   width : Int32
+  pager : String
 }
 
 ///|
@@ -44,6 +45,11 @@ fn command() -> @argparse.Command {
       OptionArg("color", about="when to emit colour: auto, always or never", default_values=[
         "auto",
       ]),
+      OptionArg(
+        "pager",
+        about="page the output with $PAGER: auto, always or never",
+        default_values=["auto"],
+      ),
     ],
     positionals=[
       PositionArg(
@@ -144,6 +150,13 @@ fn options_from_matches(matches : @argparse.Matches) -> Options raise {
     Some(other) =>
       fail("invalid color mode: \{other}; expected auto, always or never")
   }
+  let pager = match option_value(matches, "pager") {
+    Some("auto") | None => "auto"
+    Some("always") => "always"
+    Some("never") => "never"
+    Some(other) =>
+      fail("invalid pager mode: \{other}; expected auto, always or never")
+  }
   {
     theme: if colored {
       theme
@@ -151,6 +164,7 @@ fn options_from_matches(matches : @argparse.Matches) -> Options raise {
       @lib.NoColor
     },
     width: clamp_width(width),
+    pager,
   }
 }
 
@@ -176,9 +190,15 @@ async fn main {
   signal(SIGPIPE, SIG_DFL) |> ignore
   let matches = command().parse()
   let options = options_from_matches(matches)
+  let rendered : Array[String] = []
   for path in input_paths(matches) {
-    @stdio.stdout.write(
+    rendered.push(
       @lib.render(read_input(path), theme=options.theme, width=options.width),
     )
   }
+  let output = rendered.join("")
+  if should_page(options.pager) && page(output) {
+    return
+  }
+  @stdio.stdout.write(output)
 }

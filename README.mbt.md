@@ -49,10 +49,20 @@ cat notes.md | moon run cmd/main
 | `--theme <dark\|light\|none>` | `dark` | Colour palette; `none` emits no colour at all. |
 | `--width <columns>` | `$COLUMNS`, else 80 | Wrap width. |
 | `--color <auto\|always\|never>` | `auto` | `auto` colours only when stdout is a terminal that supports it. |
+| `--pager <auto\|always\|never>` | `auto` | `auto` pages through `$PAGER` when stdout is a terminal. |
 
 Any remaining arguments are input files; `-`, or no file at all, reads standard
 input. Colour is suppressed when stdout is not a terminal, `TERM` is `dumb`, or
 `NO_COLOR` is set.
+
+### Paging
+
+Output going to a terminal is piped through `$PAGER`, or through `less` when
+`$PAGER` is unset. `$LESS` defaults to `FRX` — the settings git uses — so colour
+reaches the pager, the text stays on screen after quitting, and `less` exits by
+itself when the document already fits on one screen. `--pager never` prints
+directly, `--pager always` pages even when stdout is a pipe, and a pager that
+cannot be started falls back to printing.
 
 ## Library
 
@@ -89,6 +99,6 @@ that need to measure or cut styled text themselves.
 ## Development
 
 ```bash
-moon test          # 32 behavioural and unit tests
+moon test          # 34 behavioural and unit tests
 moon info && moon fmt
 ```
