@@ -1,0 +1,13 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "daqing/moon-md-viewer/cmd/main"
+
+// Values
+
+// Errors
+
+// Types and methods
+type Options
+
+// Type aliases
+
+// Traits

@@ -1,0 +1,24 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "daqing/moon-md-viewer"
+
+// Values
+pub fn char_width(Char) -> Int
+
+pub fn display_width(String) -> Int
+
+pub fn render(String, theme? : Theme, width? : Int) -> String
+
+pub fn truncate_visible(String, Int) -> String
+
+// Errors
+
+// Types and methods
+pub(all) enum Theme {
+  Dark
+  Light
+  NoColor
+}
+
+// Type aliases
+
+// Traits

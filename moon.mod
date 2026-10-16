@@ -19,8 +19,13 @@ repository = ""
 
 license = "Apache-2.0"
 
-keywords = []
+keywords = [ ]
 
 preferred_target = "native"
 
-description = ""
+description = "Render CommonMark as ANSI for the terminal."
+
+import {
+  "moonbit-community/cmark@0.4.12",
+  "moonbitlang/async@0.22.5",
+}
