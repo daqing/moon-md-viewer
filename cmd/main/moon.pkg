@@ -1,0 +1,5 @@
+// import {
+//   "daqing/moon-md-viewer" @lib,
+// }
+
+pkgtype(kind: "executable")
