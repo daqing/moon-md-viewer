@@ -2,13 +2,13 @@
 package "daqing/moon-md-viewer"
 
 // Values
-pub fn char_width(Char) -> Int
+pub fn char_width(Char) -> Int32
 
-pub fn display_width(String) -> Int
+pub fn display_width(String) -> Int32
 
-pub fn render(String, theme? : Theme, width? : Int) -> String
+pub fn render(String, theme? : Theme, width? : Int32) -> String
 
-pub fn truncate_visible(String, Int) -> String
+pub fn truncate_visible(String, Int32) -> String
 
 // Errors
 
